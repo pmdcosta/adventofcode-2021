@@ -17,7 +17,7 @@ func main() {
 	}
 
 	// read file.
-	depths, err := readDepths(filepath.Join(path, "adventofcode-2021/01/input.csv"))
+	depths, err := readDepths(filepath.Join(path, "01/input.csv"))
 	if err != nil {
 		log.Fatal(fmt.Errorf("failed to read depths file: %w", err))
 	}
