@@ -36,34 +36,22 @@ func findLowPoint(board [][]int, pos Position, cache map[Position]bool, lows map
 	}
 	cache[pos] = true
 
-	n := board[pos.x][pos.y]
-	xMax := len(board) - 1
-	yMax := len(board[0]) - 1
-
 	// check if there is any lower adjacent point.
 	var adjacent bool
-	if pos.x != 0 && board[pos.x-1][pos.y] <= n {
-		findLowPoint(board, Position{x: pos.x - 1, y: pos.y}, cache, lows)
-		adjacent = true
-	}
-	if pos.x != xMax && board[pos.x+1][pos.y] <= n {
-		findLowPoint(board, Position{x: pos.x + 1, y: pos.y}, cache, lows)
-		adjacent = true
-	}
-	if pos.y != 0 && board[pos.x][pos.y-1] <= n {
-		findLowPoint(board, Position{x: pos.x, y: pos.y - 1}, cache, lows)
-		adjacent = true
-	}
-	if pos.y != yMax && board[pos.x][pos.y+1] <= n {
-		findLowPoint(board, Position{x: pos.x, y: pos.y + 1}, cache, lows)
-		adjacent = true
+	for _, p := range []Position{{pos.x - 1, pos.y}, {pos.x + 1, pos.y}, {pos.x, pos.y - 1}, {pos.x, pos.y + 1}} {
+		if p.x >= 0 && p.x <= len(board)-1 && p.y >= 0 && p.y <= len(board[0])-1 {
+			if board[p.x][p.y] <= board[pos.x][pos.y] {
+				findLowPoint(board, p, cache, lows)
+				adjacent = true
+			}
+		}
 	}
 	if adjacent {
 		return
 	}
 
 	// low point found.
-	lows[pos] = n
+	lows[pos] = board[pos.x][pos.y]
 	return
 }
 
